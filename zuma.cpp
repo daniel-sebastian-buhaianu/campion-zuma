@@ -9,45 +9,58 @@ using namespace std;
 int main()
 {
 	int i;
-	char s[LGMAX], *st, *dr, c;
-	bool ok;
+	char s[LGMAX], *st, *dr, c, ok;
 
 	ifstream fin("zuma.in");
+
 	fin >> i >> s;
+
 	fin.close();
-	
-	if (s[i-2] == s[i-1] && s[i-2] == s[i])
+
+	st = dr = s+i;
+	c = *(s+i);
+
+	do
 	{
-		st = s+i-2, dr = s+i;
-		c = *st;
-		do
+		ok = 0;
+
+		for (; st != s && *st == c; st--);
+
+		if (*st != c)
 		{
-			ok = 0;
+			st++;
+		}
 
-			for (; *st == c; st--);
-			for (; *dr == c; dr++);
+		for (; dr != NULL && *dr == c; dr++);
 
-			if ((int)(dr-st)-1 >= 3)
-			{
-				ok = 1;
+		if (*dr != c)
+		{
+			dr--;
+		}
 
-				*(st+1) = '\0';
+		if ((int)(dr-st) >= 2)
+		{
+			ok = 1;
 
-				strcat(s, dr);
-			}
+			*st = 0;
 
-			dr = st+1;
+			i = strlen(s);
+
+			strcat(s, dr+1);
+			
+			st = dr = s+i-1;
+
 			c = *st;
 		}
-		while (ok);
 	}
-	
-	fin.close();
+	while (ok);
 
 	ofstream fout("zuma.out");
+
 	fout << s;
+
 	fout.close();
 
 	return 0;
 }
-// scor 75
+// scor 70
