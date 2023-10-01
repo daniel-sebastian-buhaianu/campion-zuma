@@ -51,6 +51,11 @@ int main()
 			st = dr = s+i-1;
 
 			c = *st;
+
+			if (c == NULL)
+			{
+				ok = 0;
+			}
 		}
 	}
 	while (ok);
@@ -63,4 +68,6 @@ int main()
 
 	return 0;
 }
-// scor 70
+// scor 70 - campion
+// scor 85 - nerdarena
+// nu inteleg de ce nu iau 100; cred ca nu am inteles bine problema
