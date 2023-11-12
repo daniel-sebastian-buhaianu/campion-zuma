@@ -1,2 +1,2 @@
-# campion-zuma
-http://campion.edu.ro/arhiva/index.php?page=problem&action=view&id=1377
+# nerdarena-zuma
+https://www.nerdarena.ro/problema/zuma
