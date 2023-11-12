@@ -1,73 +1,61 @@
-#include <iostream>
 #include <fstream>
 #include <cstring>
-
 #define LGMAX 201
-
 using namespace std;
-
+void citesteDateleDeIntrare(char*, int&);
+void bordeazaSir(char*);
+void zuma(char*, int, int);
+void afiseazaRezultatul(char*);
 int main()
 {
-	int i;
-	char s[LGMAX], *st, *dr, c, ok;
-
-	ifstream fin("zuma.in");
-
-	fin >> i >> s;
-
-	fin.close();
-
-	st = dr = s+i;
-	c = *(s+i);
-
-	do
-	{
-		ok = 0;
-
-		for (; st != s && *st == c; st--);
-
-		if (*st != c)
-		{
-			st++;
-		}
-
-		for (; dr != NULL && *dr == c; dr++);
-
-		if (*dr != c)
-		{
-			dr--;
-		}
-
-		if ((int)(dr-st) >= 2)
-		{
-			ok = 1;
-
-			*st = 0;
-
-			i = strlen(s);
-
-			strcat(s, dr+1);
-			
-			st = dr = s+i-1;
-
-			c = *st;
-
-			if (c == NULL)
-			{
-				ok = 0;
-			}
-		}
-	}
-	while (ok);
-
-	ofstream fout("zuma.out");
-
-	fout << s;
-
-	fout.close();
-
+	char s[LGMAX];
+	int poz;
+	citesteDateleDeIntrare(s, poz);
+	bordeazaSir(s);
+	zuma(s, poz, 0);
+	afiseazaRezultatul(s);
 	return 0;
 }
-// scor 70 - campion
-// scor 85 - nerdarena
-// nu inteleg de ce nu iau 100; cred ca nu am inteles bine problema
+void zuma(char* sir, int poz, int pas)
+{
+	int i, n;
+	char *p;
+	n = strlen(sir);
+	if (sir[poz] == sir[poz-1]
+        && sir[poz] == sir[poz+1])
+    {
+        for (p = sir+poz; *p == sir[poz]; p++);
+        for (i = poz-1; i > 0 && sir[i-1] == sir[poz]; i--);
+        sir[i] = 0;
+        strcat(sir, p);
+        zuma(sir, i-1, pas+1);
+    }
+    else if (pas > 0 && n > 4)
+        if (sir[poz] == sir[poz+1]
+            && sir[poz] == sir[poz+2])
+                zuma(sir, poz+1, pas);
+}
+void bordeazaSir(char* sir)
+{
+    int n, i;
+    n = strlen(sir);
+    for (i = n; i >= 1; i--)
+        sir[i] = sir[i-1];
+    sir[0] = sir[n+1] = '_';
+    sir[n+2] = 0;
+}
+void citesteDateleDeIntrare(char* sir, int& poz)
+{
+	ifstream fin("zuma.in");
+	fin >> poz >> sir;
+	fin.close();
+}
+void afiseazaRezultatul(char* sir)
+{
+	ofstream fout("zuma.out");
+	int n, i;
+	n = strlen(sir);
+	for (i = 1; i <= n-2; i++)
+        fout << sir[i];
+	fout.close();
+}
